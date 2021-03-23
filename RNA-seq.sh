@@ -9,8 +9,10 @@ cd /proj/sens2019581/delivery04273/INBOX/P18362/
 sftp -q kangwang-sens2019581@bianca-sftp.uppmax.uu.se
 cd kangwang-sens2019581
 lls
-put hg38_chr.38  #上传
-
+put hg38_chr.map  #上传
+##登录terminal
+cp hg38_chr.map /home/kangwang/tools/CrosscheckFingerprints
+cp -r /home/kangwang
 #Download
 cd /proj/sens2019581/nobackup/wharf/kangwang/kangwang-sens2019581 #All files must be transferred through the wharf area of Bianca (download) 复制文件到该目录下
 ls
@@ -25,7 +27,7 @@ cat >name.sh
 content.....
 Ctrl+D  #ending edition
 Vim name.sh # editing modify
- 
+
 ################################
 ################################
 ################################
@@ -50,7 +52,7 @@ echo "Running CrosscheckFingerprints for the paired samples ${biopsy1} and ${bio
 java -jar $PICARD_ROOT/picard.jar CrosscheckFingerprints \
            INPUT=${IN1} \
            INPUT=${IN2} \
-           HAPLOTYPE_MAP=/home/emmasi/tools/CrosscheckFingerprints/haplotype_map/hg38_chr.map \
+           HAPLOTYPE_MAP=/home/kangwang/tools/CrosscheckFingerprints/hg38_chr.38 \
            LOD_THRESHOLD=-5 \
 	   NUM_THREADS=16 \
            EXPECT_ALL_GROUPS_TO_MATCH=true \
