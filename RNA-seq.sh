@@ -52,7 +52,7 @@ echo "Running CrosscheckFingerprints for the paired samples ${biopsy1} and ${bio
 java -jar $PICARD_ROOT/picard.jar CrosscheckFingerprints \
            INPUT=${IN1} \
            INPUT=${IN2} \
-           HAPLOTYPE_MAP=/home/kangwang/tools/CrosscheckFingerprints/hg38_chr.38 \
+           HAPLOTYPE_MAP=/home/kangwang/tools/CrosscheckFingerprints/hg38_chr.map \
            LOD_THRESHOLD=-5 \
 	   NUM_THREADS=16 \
            EXPECT_ALL_GROUPS_TO_MATCH=true \
