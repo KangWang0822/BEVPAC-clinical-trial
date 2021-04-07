@@ -1,2 +1,6 @@
 module load bioinfo-tools
-module load Nextflow/21.02.0-edg
+module load Nextflow
+
+touch samplesheet.csv
+vim samplesheet.csv
+Sample,R1,R2,Condition,Source
