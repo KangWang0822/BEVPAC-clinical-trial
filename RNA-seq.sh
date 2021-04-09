@@ -58,3 +58,7 @@ java -jar $PICARD_ROOT/picard.jar CrosscheckFingerprints \
            EXPECT_ALL_GROUPS_TO_MATCH=true \
            OUTPUT=/home/kangwang/tools/CrosscheckFingerprints/sample.crosscheck_metrics_${biopsy1}_vs${biopsy2}
 echo "Done..."
+
+
+
+export NXF_OFFLINE='/proj/sens2019581'
