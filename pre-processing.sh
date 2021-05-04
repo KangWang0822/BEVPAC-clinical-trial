@@ -1,5 +1,10 @@
 module load bioinfo-tools
 module load Nextflow
+export NXF_HOME=/home/kangwang/nextflow/
+
+####示例#####
+nextflow run nf-core/rnaseq -profile UPPMAX
+
 
 touch samplesheet.csv
 vim samplesheet.csv
