@@ -18,7 +18,7 @@ get -r UB-2846
 #SBATCH -A sens2019581
 #SBATCH -p core 
 #SBATCH -n 24
-#SBATCH -t 24:00:00
+#SBATCH -t 6:00:00
 #SBATCH -J sarak_test
 module load bioinfo-tools Nextflow nf-core
 cd /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1
