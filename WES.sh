@@ -16,8 +16,8 @@ get -r UB-2846
 
 #!/bin/bash -l
 #SBATCH -A sens2019581
-#SBATCH -p core 
-#SBATCH -n 24
+#SBATCH -p node 
+#SBATCH -n 1
 #SBATCH -t 6:00:00
 #SBATCH -J sarak_test
 module load bioinfo-tools Nextflow nf-core
