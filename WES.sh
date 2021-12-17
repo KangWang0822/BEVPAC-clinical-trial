@@ -14,6 +14,14 @@ get -r UB-2846
 #4) Run a test run with one paired sample e.g. from WES, using the target BED file, and e.g. the PON from GATK resources. Here is an example:
 #module load bioinfo-tools Nextflow nf-core
 
+#!/bin/bash -l
+#SBATCH -A sens2019581
+#SBATCH -p core 
+#SBATCH -n 6
+#SBATCH -t 24:00:00
+#SBATCH -J star
+module load bioinfo-tools Nextflow nf-core
+
 export NXF_OFFLINE='TRUE'
 export NXF_HOME="/castor/project/proj/nobackup/nf-core2/nf-core-sarek-2.7.1/workflow/"
 export PATH=${NXF_HOME}:${PATH}
