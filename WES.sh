@@ -61,9 +61,8 @@ cp -r /proj/nobackup/sens2019581/wharf/kangwang/kangwang-sens2019581/Twist_Exome
 
 #!/bin/bash -l
 #SBATCH -A sens2019581
-#SBATCH -p core 
-#SBATCH -n 12
-#SBATCH -t 24:00:00
+#SBATCH -p node -n 1 -C mem128GB
+#SBATCH -t 240:00:00
 #SBATCH -J sarak_test
 module load bioinfo-tools Nextflow/21.04.1 nf-core/1.14
 export NXF_OFFLINE='TRUE'
@@ -90,9 +89,8 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 
 #!/bin/bash -l
 #SBATCH -A sens2019581
-#SBATCH -p core 
-#SBATCH -n 12
-#SBATCH -t 24:00:00
+#SBATCH -p node -n 1 -C mem128GB
+#SBATCH -t 240:00:00
 #SBATCH -J sarak_test
 module load bioinfo-tools Nextflow/21.04.1 nf-core/1.14
 export NXF_OFFLINE='TRUE'
@@ -117,9 +115,8 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 
 #!/bin/bash -l
 #SBATCH -A sens2019581
-#SBATCH -p core 
-#SBATCH -n 12
-#SBATCH -t 24:00:00
+#SBATCH -p node -n 1 -C mem128GB
+#SBATCH -t 240:00:00
 #SBATCH -J sarak_test
 module load bioinfo-tools Nextflow/21.04.1 nf-core/1.14
 export NXF_OFFLINE='TRUE'
@@ -144,9 +141,8 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 
 #!/bin/bash -l
 #SBATCH -A sens2019581
-#SBATCH -p core 
-#SBATCH -n 12
-#SBATCH -t 24:00:00
+#SBATCH -p node -n 1 -C mem128GB
+#SBATCH -t 240:00:00
 #SBATCH -J sarak_test
 module load bioinfo-tools Nextflow/21.04.1 nf-core/1.14
 export NXF_OFFLINE='TRUE'
