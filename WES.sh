@@ -66,6 +66,15 @@ cp -r /proj/nobackup/sens2019581/wharf/kangwang/kangwang-sens2019581/Twist_Exome
 cd /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/Code
 rm -r work/
 
+###To run nextflow
+screen -S sarek
+control+A+D
+exit 
+screen ls
+screen -r 
+
+
+
 #!/bin/bash -l
 #SBATCH -A sens2019581
 #SBATCH -p node -n 1 -C mem128GB
