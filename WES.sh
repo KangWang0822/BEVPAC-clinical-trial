@@ -58,6 +58,13 @@ cp -r /castor/project/proj/data/BEVPAC_WES/UB-2845/210820_A00181_0332_AHGCGFDSX2
 cp -r /proj/nobackup/sens2019581/wharf/kangwang/kangwang-sens2019581/BEVPAC_samplesheet.tsv /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/BEVPAC-data
 cp -r /proj/nobackup/sens2019581/wharf/kangwang/kangwang-sens2019581/Twist_Exome_RefSeq_targets_hg38_100bp_padding.bed /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/BEVPAC-data
 
+#!/bin/bash -l
+#SBATCH -A sens2019581
+#SBATCH -p core -n 8
+#SBATCH -t 24:00:00
+#SBATCH -J rm_work
+cd /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/Code
+rm -r work/
 
 #!/bin/bash -l
 #SBATCH -A sens2019581
