@@ -63,8 +63,8 @@ cp -r /proj/nobackup/sens2019581/wharf/kangwang/kangwang-sens2019581/Twist_Exome
 #SBATCH -p core -n 8
 #SBATCH -t 24:00:00
 #SBATCH -J rm_work
-cd /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/Code
-rm -r work/
+cd /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/
+rsync -a --delete work/
 
 ###To run nextflow
 screen -S sarek
