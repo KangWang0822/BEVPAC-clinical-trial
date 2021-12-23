@@ -71,7 +71,8 @@ screen -S sarek
 control+A+D
 exit 
 screen ls
-screen -r 
+screen -r
+screen -X -S 36740.sarek quit
 
 
 
