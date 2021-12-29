@@ -101,7 +101,7 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 --step 'mapping' \
 --target_bed "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/BEVPAC-data/Twist_Exome_RefSeq_targets_hg38_100bp_padding.bed" \
 --save_bam_mapped \
--resume
+-resume maniac_bartik
 
 -resume [run-name]
 #Use the "nextflow log" command to show previous run names.
