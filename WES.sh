@@ -103,6 +103,10 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 --save_bam_mapped \
 -resume
 
+-resume [run-name]
+#Use the "nextflow log" command to show previous run names.
+
+
 
 #!/bin/bash -l
 #SBATCH -A sens2019581
