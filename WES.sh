@@ -81,7 +81,7 @@ screen -X -S 36740.sarek quit
 #SBATCH -p node -n 1 -C mem128GB
 #SBATCH -t 240:00:00
 #SBATCH -J sarak_test
-module load bioinfo-tools Nextflow/21.04.1 nf-core/1.14
+module load bioinfo-tools Nextflow/21.04.1 nf-core/1.14 iGenomes/latest
 export NXF_OFFLINE='TRUE'
 export NXF_HOME="/castor/project/proj/nobackup/nf-core2/nf-core-sarek-2.7.1/workflow/"
 export PATH=${NXF_HOME}:${PATH}
@@ -101,7 +101,7 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 --step 'mapping' \
 --target_bed "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/BEVPAC-data/Twist_Exome_RefSeq_targets_hg38_100bp_padding.bed" \
 --save_bam_mapped \
--resume awesome_raman
+-resume lethal_engelbart 
 
 -resume [run-name]
 #Use the "nextflow log" command to show previous run names.
