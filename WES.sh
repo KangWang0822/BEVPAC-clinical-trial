@@ -107,13 +107,14 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 #Use the "nextflow log" command to show previous run names.
 
 
+cd /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES
 
 #!/bin/bash -l
 #SBATCH -A sens2019581
 #SBATCH -p node -n 1 -C mem128GB
 #SBATCH -t 240:00:00
 #SBATCH -J sarak_test
-module load bioinfo-tools Nextflow/21.04.1 nf-core/1.14
+module load bioinfo-tools Nextflow/21.04.1 nf-core/1.14 iGenomes/latest
 export NXF_OFFLINE='TRUE'
 export NXF_HOME="/castor/project/proj/nobackup/nf-core2/nf-core-sarek-2.7.1/workflow/"
 export PATH=${NXF_HOME}:${PATH}
@@ -122,6 +123,7 @@ export NXF_LAUNCHER=$SNIC_TMP
 export NXF_SINGULARITY_CACHEDIR="/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/singularity-images/"
 # Prepare recalibration
 nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow/main.nf \
+--outdir "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results" \
 -profile uppmax \
 -with-singularity "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/singularity-images/nf-core-sarek-2.7.1.simg" \
 --custom_config_base "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/configs" \
