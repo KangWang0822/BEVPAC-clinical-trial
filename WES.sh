@@ -134,7 +134,7 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 --step 'prepare_recalibration' \
 --target_bed "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/BEVPAC-data/Twist_Exome_RefSeq_targets_hg38_100bp_padding.bed" \
 --save_bam_mapped \
--resume
+-resume jovial_sanger
 
 #!/bin/bash -l
 #SBATCH -A sens2019581
