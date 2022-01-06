@@ -150,7 +150,7 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 --step 'recalibrate' \
 --target_bed "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/BEVPAC-data/Twist_Exome_RefSeq_targets_hg38_100bp_padding.bed" \
 --save_bam_mapped \
--resume
+-resume dreamy_bohr
 
 # Variant calling: MuTect2
 module load bioinfo-tools Nextflow/21.04.1 nf-core/1.14 iGenomes/latest
