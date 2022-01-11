@@ -153,6 +153,11 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 --save_bam_mapped \
 -resume distraught_poincare
 
+#generate index
+cd /castor/project/proj_nobackup/references/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle
+module load tabix
+tabix -p vcf 1000g_pon.hg38.vcf.gz
+
 # Variant calling: MuTect2
 module load bioinfo-tools Nextflow/21.04.1 nf-core/1.14 iGenomes/latest
 export NXF_OFFLINE='TRUE'
@@ -177,7 +182,7 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 --step 'variant_calling' \
 --tools 'mutect2' \
 --target_bed "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/BEVPAC-data/Twist_Exome_RefSeq_targets_hg38_100bp_padding.bed" \
--resume
+-resume pensive_bhabha
 
 
 # Variant calling: Manta (first run Manta, then Strelka ;according to Best Practices)
