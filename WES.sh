@@ -200,7 +200,7 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 --custom_config_base "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/configs" \
 -c "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-data/sarek.custom.config" \
 --project sens2019581 \
---input "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results/Preprocessing/TSV" \
+--input "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results/Preprocessing/TSV/recalibrated.tsv" \
 --genome GRCh38 \
 --step 'variant_calling' \
 --tools 'manta' \
@@ -222,7 +222,7 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 --custom_config_base "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/configs" \
 -c "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-data/sarek.custom.config" \
 --project sens2019581 \
---input "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results/Preprocessing/TSV" \
+--input "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results/Preprocessing/TSV/recalibrated.tsv" \
 --genome GRCh38 \
 --step 'variant_calling' \
 --tools 'strelka' \
@@ -237,7 +237,7 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 --custom_config_base "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/configs" \
 -c "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-data/sarek.custom.config" \
 --project sens2019581 \
---input "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results/Preprocessing/TSV" \
+--input "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results/Preprocessing/TSV/recalibrated.tsv" \
 --genome GRCh38 \
 --step 'variant_calling' \
 --tools 'cnvkit' \
