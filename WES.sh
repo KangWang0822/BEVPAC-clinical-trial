@@ -73,14 +73,14 @@ exit
 screen ls
 screen -r
 screen -X -S 36740.sarek quit
-
-
-
-#!/bin/bash -l
-#SBATCH -A sens2019581
-#SBATCH -p node -n 1 -C mem128GB
-#SBATCH -t 240:00:00
-#SBATCH -J sarak_test
+#####################NB#######################
+#1.always run with resueme -name, Use the "nextflow log" command to show previous run names.
+#2.
+#3.check with intermediate files, and edit them if there is something wrong.
+#such as /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results/Preprocessing/TSV/
+###############################################
+#####################Start#####################
+###############################################
 module load bioinfo-tools Nextflow/21.04.1 nf-core/1.14 iGenomes/latest
 export NXF_OFFLINE='TRUE'
 export NXF_HOME="/castor/project/proj/nobackup/nf-core2/nf-core-sarek-2.7.1/workflow/"
@@ -102,12 +102,6 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 --target_bed "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/BEVPAC-data/Twist_Exome_RefSeq_targets_hg38_100bp_padding.bed" \
 --save_bam_mapped \
 -resume lethal_engelbart 
-
--resume [run-name]
-#Use the "nextflow log" command to show previous run names.
-
-
-cd /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES
 
 # Prepare recalibration
 module load bioinfo-tools Nextflow/21.04.1 nf-core/1.14 iGenomes/latest
