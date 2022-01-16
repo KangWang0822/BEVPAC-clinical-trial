@@ -77,7 +77,10 @@ screen -X -S 36740.sarek quit
 #1.always run with resueme -name, Use the "nextflow log" command to show previous run names.
 #2.
 #3.check with intermediate files, and edit them if there is something wrong.
-#such as /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results/Preprocessing/TSV/
+#such as 
+cp /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results/Preprocessing/TSV/recalibrated.tsv /proj/sens2019581/nobackup/wharf/kangwang/kangwang-sens2019581
+sftp kangwang-sens2019581@bianca-sftp.uppmax.uu.se:kangwang-sens2019581
+cp /proj/sens2019581/nobackup/wharf/kangwang/kangwang-sens2019581/recalibrated.tsv /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results/Preprocessing/TSV
 ###############################################
 #####################Start#####################
 ###############################################
