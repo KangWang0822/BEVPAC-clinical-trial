@@ -155,6 +155,23 @@ cd /castor/project/proj_nobackup/references/Homo_sapiens/GATK/GRCh38/Annotation/
 module load tabix
 tabix -p vcf 1000g_pon.hg38.vcf.gz
 
+# Variant calling: Haplotypecaller
+nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow/main.nf \
+-profile uppmax \
+-with-singularity "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/singularity-images/nf-core-sarek-2.7.1.simg" \
+--custom_config_base "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/configs" \
+-c "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-data/sarek.custom.config" \
+--project sens2019581 \
+--input "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results/Preprocessing/TSV/recalibrated.tsv" \
+--genome GRCh38 \
+--generate_gvcf \
+--pon "/castor/project/proj_nobackup/references/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/1000g_pon.hg38.vcf.gz" \
+--pon_index "/castor/project/proj_nobackup/references/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/1000g_pon.hg38.vcf.gz.tbi" \
+--step 'variant_calling' \
+--tools 'haplotypecaller' \
+--target_bed "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/BEVPAC-data/Twist_Exome_RefSeq_targets_hg38_100bp_padding.bed" \
+-resume
+
 # Variant calling: MuTect2
 module load bioinfo-tools Nextflow/21.04.1 nf-core/1.14 iGenomes/latest
 export NXF_OFFLINE='TRUE'
@@ -225,6 +242,19 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 --tools 'strelka' \
 --target_bed "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/BEVPAC-data/Twist_Exome_RefSeq_targets_hg38_100bp_padding.bed" \
 -resume intergalactic_nightingale
+
+# Annotate: snpeff/VEP
+nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow/main.nf \
+-profile uppmax \
+-with-singularity "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/singularity-images/nf-core-sarek-2.7.1.simg" \
+--custom_config_base "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/configs" \
+-c "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-data/sarek.custom.config" \
+--project sens2019581 \
+--input "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results/VariantCalling/*/{Manta,Mutect2,Strelka}/*.vcf.gz" \
+--genome GRCh38 \
+--step 'annotate' \
+--tools 'snpeff, vep' \
+-resume
 
 # Variant calling: CNVkit
 nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow/main.nf \
