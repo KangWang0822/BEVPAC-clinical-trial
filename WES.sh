@@ -170,7 +170,7 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 --step 'variant_calling' \
 --tools 'haplotypecaller' \
 --target_bed "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/BEVPAC-data/Twist_Exome_RefSeq_targets_hg38_100bp_padding.bed" \
--resume
+-resume adoring_brown
 
 # Variant calling: MuTect2
 module load bioinfo-tools Nextflow/21.04.1 nf-core/1.14 iGenomes/latest
