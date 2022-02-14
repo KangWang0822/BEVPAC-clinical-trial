@@ -250,7 +250,7 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 --custom_config_base "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/configs" \
 -c "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-data/sarek.custom.config" \
 --project sens2019581 \
---input "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results/VariantCalling/*/{Manta,Mutect2,Strelka}/*.vcf.gz" \
+--input "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results/VariantCalling/*/{Manta,Mutect2,Strelka,HaplotypeCaller,HaplotypeCallerGVCF}/*.vcf.gz" \
 --genome GRCh38 \
 --step 'annotate' \
 --tools 'snpeff, vep' \
