@@ -317,6 +317,8 @@ done
 ###################################
 ###################################
 ###################################
-
+ls | grep "maf" | wc -l
+cd /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/MAF
+awk '{print $0"\t"FILENAME}' *.maf >  BEVPAC_Mutect2.txt
 
 
