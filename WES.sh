@@ -271,7 +271,46 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 --target_bed "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/BEVPAC-data/Twist_Exome_RefSeq_targets_hg38_100bp_padding.bed" \
 -resume
 
+###################################
+############VCF to MAF#############
+###################################
+#################################################
+cd /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/MAF
+for file in *.vcf.gz;
+do 
+ID=${file#*_}
+ID=${ID%%vs*}
+ID=${ID#*_}
+ID=$(basename $ID _).vcf
+echo unzip $ID
+gunzip -c "$file">"$ID"
+done
 
-
+#!/bin/bash -l
+#SBATCH -A snic2021-22-358
+#SBATCH -p core
+#SBATCH -n 8
+#SBATCH -t 24:00:00
+#SBATCH -J VCFtoMAF
+cd /proj/snic2021-23-324/nobackup/private/tools/mskcc-vcf2maf-754d68a
+module load bioinfo-tools
+module load miniconda3
+module load samtools
+module load vep
+for file in /proj/snic2021-23-324/nobackup/private/PROMIX_WES/MAF/Mutect2/*.vcf
+do
+ID=$(basename $file vcf)maf
+echo Parsing $ID
+perl vcf2maf.pl --input-vcf $file \
+--ref-fasta /sw/data/igenomes/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.fa \
+--species homo_sapiens --ncbi-build GRCh38 \
+--vep-path /sw/bioinfo/vep/99/src/ensembl-vep/ \
+--vep-data /sw/data/vep/99 \
+--tumor-id WD1309 \
+--normal-id NB1308 \
+--vcf-tumor-id TUMOR \
+--vcf-normal-id NORMAL \
+--output-maf /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/MAF/$ID
+done
 
 
