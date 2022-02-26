@@ -303,15 +303,15 @@ for file in /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/MAF/*.vcf
 do
 MAF=$(basename $file vcf)maf
 ID=$(basename $file .vcf)
-#Normal=$(echo $ID | cut -d _ -f1)_Blood
+Normal=$(echo $ID | cut -d _ -f1)_Blood
 echo Parsing $ID
 perl vcf2maf.pl --input-vcf $file \
 --ref-fasta /sw/data/igenomes/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.fa \
 --species homo_sapiens --ncbi-build GRCh38 \
 --vep-path /sw/bioinfo/vep/99/src/ensembl-vep/ \
 --vep-data /sw/data/vep/99 \
---tumor-id Tumor \
---normal-id Normal \
+--tumor-id $ID \
+--normal-id $Normal \
 --output-maf /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/MAF/$MAF
 done
 ###################################
