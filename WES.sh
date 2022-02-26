@@ -274,7 +274,7 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 ###################################
 ############VCF to MAF#############
 ###################################
-#################################################
+###################################
 cd /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/MAF
 for file in *.vcf.gz;
 do 
@@ -285,7 +285,9 @@ ID=$(basename $ID _).vcf
 echo unzip $ID
 gunzip -c "$file">"$ID"
 done
-
+###################################
+###################################
+###################################
 #!/bin/bash -l
 #SBATCH -A snic2021-22-358
 #SBATCH -p core
@@ -297,7 +299,7 @@ module load bioinfo-tools
 module load miniconda3
 module load samtools
 module load vep
-for file in /proj/snic2021-23-324/nobackup/private/PROMIX_WES/MAF/VarDict/*.vcf
+for file in /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/MAF/*.vcf
 do
 MAF=$(basename $file vcf)maf
 ID=$(basename $file .vcf)
@@ -310,7 +312,11 @@ perl vcf2maf.pl --input-vcf $file \
 --vep-data /sw/data/vep/99 \
 --tumor-id Tumor \
 --normal-id Normal \
---output-maf /proj/snic2021-23-324/nobackup/private/PROMIX_WES/MAF/VarDict/MAF/$MAF
+--output-maf /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/MAF/$MAF
 done
+###################################
+###################################
+###################################
+
 
 
