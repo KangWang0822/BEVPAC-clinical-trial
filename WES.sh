@@ -297,20 +297,20 @@ module load bioinfo-tools
 module load miniconda3
 module load samtools
 module load vep
-for file in /proj/snic2021-23-324/nobackup/private/PROMIX_WES/MAF/Mutect2/*.vcf
+for file in /proj/snic2021-23-324/nobackup/private/PROMIX_WES/MAF/VarDict/*.vcf
 do
-ID=$(basename $file vcf)maf
+MAF=$(basename $file vcf)maf
+ID=$(basename $file .vcf)
+#Normal=$(echo $ID | cut -d _ -f1)_Blood
 echo Parsing $ID
 perl vcf2maf.pl --input-vcf $file \
 --ref-fasta /sw/data/igenomes/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.fa \
 --species homo_sapiens --ncbi-build GRCh38 \
 --vep-path /sw/bioinfo/vep/99/src/ensembl-vep/ \
 --vep-data /sw/data/vep/99 \
---tumor-id WD1309 \
---normal-id NB1308 \
---vcf-tumor-id TUMOR \
---vcf-normal-id NORMAL \
---output-maf /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/MAF/$ID
+--tumor-id Tumor \
+--normal-id Normal \
+--output-maf /proj/snic2021-23-324/nobackup/private/PROMIX_WES/MAF/VarDict/MAF/$MAF
 done
 
 
