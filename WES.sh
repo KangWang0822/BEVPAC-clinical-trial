@@ -430,9 +430,14 @@ echo Parsing $ID
 perl vcf2maf.pl --input-vcf $file \
 --ref-fasta /sw/data/igenomes/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.fa \
 --species homo_sapiens --ncbi-build GRCh38 \
+--vep-path /sw/bioinfo/vep/99/src/ensembl-vep/ \
+--vep-data /sw/data/vep/99 \
+--tumor-id $ID \
 --output-maf /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/Una_complement/Tumor_only/$MAF
 done
 
+ls | grep "maf" | wc -l
+awk '{print $0"\t"FILENAME}' *.maf >  BEVPAC_Mutect2_TumorOnly.txt
 ####################
 #######For BEV155########
 ####################
@@ -506,7 +511,8 @@ perl vcf2maf.pl --input-vcf $file \
 --output-maf /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/Una_complement/Strelka/$MAF
 done
 
-  
+ls | grep "maf" | wc -l
+awk '{print $0"\t"FILENAME}' *.maf >  BEVPAC_Strelka.txt
 
 
 
