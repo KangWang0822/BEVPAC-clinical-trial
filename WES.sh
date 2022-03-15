@@ -271,6 +271,21 @@ nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow
 --target_bed "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/BEVPAC-data/Twist_Exome_RefSeq_targets_hg38_100bp_padding.bed" \
 -resume
 
+# Annotate: snpeff/VEP
+
+nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow/main.nf \
+-profile uppmax \
+-with-singularity "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/singularity-images/nf-core-sarek-2.7.1.simg" \
+--custom_config_base "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/configs" \
+-c "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-data/sarek.custom.config" \
+--project sens2019581 \
+--input "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-PROMIX_WES/results/VariantCalling/*/{Manta,Mutect2,Strelka,VarDict}/*.vcf.gz" \
+--genome GRCh38 \
+--step 'annotate' \
+--tools 'snpeff, vep' \
+-resume
+
+
 ###################################
 ############VCF to MAF#############
 ###################################
@@ -320,5 +335,179 @@ done
 ls | grep "maf" | wc -l
 cd /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/MAF
 awk '{print $0"\t"FILENAME}' *.maf >  BEVPAC_Mutect2.txt
+
+
+#####################
+
+# Variant calling: MuTect2
+module load bioinfo-tools Nextflow/21.04.1 nf-core/1.14 iGenomes/latest
+export NXF_OFFLINE='TRUE'
+export NXF_HOME="/castor/project/proj/nobackup/nf-core2/nf-core-sarek-2.7.1/workflow/"
+export PATH=${NXF_HOME}:${PATH}
+export NXF_TEMP=$SNIC_TMP
+export NXF_LAUNCHER=$SNIC_TMP
+export NXF_SINGULARITY_CACHEDIR="/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/singularity-images/"
+nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow/main.nf \
+--outdir "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results" \
+-profile uppmax \
+-with-singularity "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/singularity-images/nf-core-sarek-2.7.1.simg" \
+--custom_config_base "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/configs" \
+-c "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-data/sarek.custom.config" \
+--project sens2019581 \
+--input "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results/Preprocessing/TSV/BEV115_recalibrated.tsv" \
+--genome GRCh38 \
+--germline_resource "$IGENOMES_DATA/Homo_sapiens/GATK/GRCh38/Annotation/GermlineResource/gnomAD.r2.1.1.GRCh38.PASS.AC.AF.only.vcf.gz" \
+--germline_resource_index "$IGENOMES_DATA/Homo_sapiens/GATK/GRCh38/Annotation/GermlineResource/gnomAD.r2.1.1.GRCh38.PASS.AC.AF.only.vcf.gz.tbi" \
+--pon "/castor/project/proj_nobackup/references/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/1000g_pon.hg38.vcf.gz" \
+--pon_index "/castor/project/proj_nobackup/references/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/1000g_pon.hg38.vcf.gz.tbi" \
+--step 'variant_calling' \
+--tools 'mutect2' \
+--target_bed "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/BEVPAC-data/Twist_Exome_RefSeq_targets_hg38_100bp_padding.bed" \
+-resume 
+
+###################################
+############VCF to MAF#############
+###################################
+###################################
+cd /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/MAF
+cd /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/Una_complement
+cp /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/Annotation/*/VEP/Mutect2_filtered_BEV*_VEP.ann.vcf.gz .
+
+for file in *.vcf.gz;
+do 
+ID=${file#*_}
+ID=${ID#*_}
+ID=$(basename $ID _).vcf
+echo unzip $ID
+gunzip -c "$file">"$ID"
+done
+
+#!/bin/bash -l
+#SBATCH -A snic2021-22-358
+#SBATCH -p core
+#SBATCH -n 8
+#SBATCH -t 24:00:00
+#SBATCH -J VCFtoMAF
+cd /proj/snic2021-23-324/nobackup/private/tools/mskcc-vcf2maf-754d68a
+module load bioinfo-tools
+module load miniconda3
+module load samtools
+module load vep
+for file in /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/MAF/*.vcf
+do
+MAF=$(basename $file vcf)maf
+ID=$(basename $file .vcf)
+Normal=$(echo $ID | cut -d _ -f1)_Blood
+echo Parsing $ID
+perl vcf2maf.pl --input-vcf $file \
+--ref-fasta /sw/data/igenomes/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.fa \
+--species homo_sapiens --ncbi-build GRCh38 \
+--vep-path /sw/bioinfo/vep/99/src/ensembl-vep/ \
+--vep-data /sw/data/vep/99 \
+--tumor-id $ID \
+--normal-id $Normal \
+--output-maf /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/MAF/$MAF
+done
+#####################
+######Tumor only#####
+#####################
+#!/bin/bash -l
+#SBATCH -A snic2021-22-358
+#SBATCH -p core
+#SBATCH -n 8
+#SBATCH -t 06:00:00
+#SBATCH -J VCFtoMAF
+cd /proj/snic2021-23-324/nobackup/private/tools/mskcc-vcf2maf-754d68a
+module load bioinfo-tools
+module load miniconda3
+module load samtools
+module load vep
+for file in /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/Una_complement/Tumor_only/*.vcf
+do
+MAF=$(basename $file vcf)maf
+ID=$(basename $file .vcf)
+echo Parsing $ID
+perl vcf2maf.pl --input-vcf $file \
+--ref-fasta /sw/data/igenomes/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.fa \
+--species homo_sapiens --ncbi-build GRCh38 \
+--output-maf /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/Una_complement/Tumor_only/$MAF
+done
+
+####################
+#######For BEV155########
+####################
+#!/bin/bash -l
+#SBATCH -A snic2021-22-358
+#SBATCH -p core
+#SBATCH -n 8
+#SBATCH -t 24:00:00
+#SBATCH -J VCFtoMAF
+cd /proj/snic2021-23-324/nobackup/private/tools/mskcc-vcf2maf-754d68a
+module load bioinfo-tools
+module load miniconda3
+module load samtools
+module load vep
+for file in /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/Una_complement/BEV155/*.vcf
+do
+MAF=$(basename $file vcf)maf
+ID=$(basename $file .vcf)
+Normal=$(echo $ID | cut -d _ -f1)_Blood
+echo Parsing $ID
+perl vcf2maf.pl --input-vcf $file \
+--ref-fasta /sw/data/igenomes/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.fa \
+--species homo_sapiens --ncbi-build GRCh38 \
+--vep-path /sw/bioinfo/vep/99/src/ensembl-vep/ \
+--vep-data /sw/data/vep/99 \
+--tumor-id $ID \
+--normal-id $Normal \
+--output-maf /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/Una_complement/BEV155/$MAF
+done
+############################
+##########Strelka###########
+############################
+cp /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/Annotation/*vs*/VEP/Strelka*vs*snvs_VEP.ann.vcf.gz /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/Una_complement/Strelka
+cd /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/Una_complement/Strelka
+for file in *.vcf.gz;
+do 
+ID=${file#*_}
+echo $ID
+ID=${ID%%vs*}
+echo $ID
+ID=$(basename $ID _).vcf
+echo unzip $ID
+gunzip -c "$file">"$ID"
+done
+###################################
+###################################
+###################################
+#!/bin/bash -l
+#SBATCH -A snic2021-22-358
+#SBATCH -p core
+#SBATCH -n 8
+#SBATCH -t 24:00:00
+#SBATCH -J VCFtoMAF
+cd /proj/snic2021-23-324/nobackup/private/tools/mskcc-vcf2maf-754d68a
+module load bioinfo-tools
+module load miniconda3
+module load samtools
+module load vep
+for file in cd /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/Una_complement/Strelka/*.vcf
+do
+MAF=$(basename $file vcf)maf
+ID=$(basename $file .vcf)
+echo Parsing $ID
+perl vcf2maf.pl --input-vcf $file \
+--ref-fasta /sw/data/igenomes/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.fa \
+--species homo_sapiens --ncbi-build GRCh38 \
+--vep-path /sw/bioinfo/vep/99/src/ensembl-vep/ \
+--vep-data /sw/data/vep/99 \
+--tumor-id "TUMOR" \
+--normal-id "NORMAL" \
+--output-maf /proj/snic2021-23-324/nobackup/private/BEVPAC_WES/Una_complement/Strelka/$MAF
+done
+
+  
+
+
 
 
