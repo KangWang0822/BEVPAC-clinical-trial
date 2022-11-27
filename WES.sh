@@ -515,5 +515,33 @@ ls | grep "maf" | wc -l
 awk '{print $0"\t"FILENAME}' *.maf >  BEVPAC_Strelka.txt
 
 
+#################################
+#################################
+##########ADD Blood##############
+#################################
+#################################
+cd /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/blood_add
+export NXF_OFFLINE='TRUE'
+export NXF_HOME="/castor/project/proj/nobackup/nf-core2/nf-core-sarek-2.7.1/workflow/"
+export PATH=${NXF_HOME}:${PATH}
+export NXF_TEMP=$SNIC_TMP
+export NXF_LAUNCHER=$SNIC_TMP
+export NXF_SINGULARITY_CACHEDIR="/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/singularity-images/"
+nextflow run /castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/workflow/main.nf \
+--outdir "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/Sarek-results/Sarek-BEVPAC_WES/results" \
+-profile uppmax \
+-with-singularity "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/singularity-images/nf-core-sarek-2.7.1.simg" \
+--custom_config_base "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/configs" \
+--project sens2019581 \
+--input "/castor/project/proj_nobackup/nf-core2/nf-core-sarek-2.7.1/BEVPAC-data/BEVPAC_samplesheet_add.tsv" \
+--genome GRCh38 \
+--step 'mapping' \
+--target_bed "/proj/nobackup/sens2019581/wharf/kangwang/kangwang-sens2019581/Twist_Comprehensive_Exome_Covered_Targets_GRCh38.pad.sort.merge.bed" \
+--save_bam_mapped \
+-resume 
+
+
+
+
 
 
