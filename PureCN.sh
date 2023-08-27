@@ -64,7 +64,7 @@ Rscript $PURECN/IntervalFile.R --in-file /proj/sens2019581/nobackup/PureCN/refer
 # Step2 Coverage
 
 #!/bin/bash -l
-#SBATCH -A sens2022005
+#SBATCH -A sens2019581
 #SBATCH -p node
 #SBATCH -n 4
 #SBATCH -t 12:00:00
@@ -72,7 +72,7 @@ Rscript $PURECN/IntervalFile.R --in-file /proj/sens2019581/nobackup/PureCN/refer
 module load bioinfo-tools
 module load R/4.2.1
 module load R_packages/4.2.1
-cd /proj/nobackup/sens2022005/data/PREDIX_HER2_WES/PureCN/scratch/data/Normal
+cd /proj/sens2019581/nobackup/PureCN/data/Normal
 export PURECN="/sw/apps/R_packages/4.2.1/bianca/PureCN/extdata"
 export OUT_REF="/proj/sens2019581/nobackup/PureCN/reference_files"
 export OUT="/proj/sens2019581/nobackup/PureCN/data/Normal"
@@ -83,15 +83,15 @@ Rscript $PURECN/Coverage.R --out-dir $OUT \
 
 
 #!/bin/bash -l
-#SBATCH -A sens2022005
+#SBATCH -A sens2019581
 #SBATCH -p node
 #SBATCH -n 4
 #SBATCH -t 12:00:00
-#SBATCH -J coverage_normal
+#SBATCH -J coverage_tumor
 module load bioinfo-tools
 module load R/4.2.1
 module load R_packages/4.2.1
-cd /proj/nobackup/sens2022005/data/PREDIX_HER2_WES/PureCN/scratch/data/Normal
+cd /proj/sens2019581/nobackup/PureCN/data/Tumor
 export PURECN="/sw/apps/R_packages/4.2.1/bianca/PureCN/extdata"
 export OUT_REF="/proj/sens2019581/nobackup/PureCN/reference_files"
 export OUT="/proj/sens2019581/nobackup/PureCN/data/Tumor"
@@ -99,3 +99,66 @@ Rscript $PURECN/Coverage.R --out-dir $OUT \
     --bam /proj/sens2019581/nobackup/PureCN/data/tumor_bam.list \
     --intervals $OUT_REF/Twist_Exome_RefSeq_targets_hg38_intervals.txt \
     --cores 64 --parallel
+
+# Rename Coverage output
+for file in *txt
+do 
+echo $file
+sample=$(basename $file .recal.gz.txt)
+mv $file $sample".gz.txt"
+done
+
+# NormalDB
+cd /proj/sens2019581/nobackup/PureCN/data/Normal
+ls -a *_loess.txt.gz | cat > BEVPAC_normal_coverages.list
+
+#!/bin/bash -l
+#SBATCH -A sens2019581
+#SBATCH -p node
+#SBATCH -n 6
+#SBATCH -t 12:00:00
+#SBATCH -J NormalDB
+module load bioinfo-tools
+module load R/4.2.1
+module load R_packages/4.2.1
+cd /proj/sens2019581/nobackup/PureCN/data/Normal
+export PURECN="/sw/apps/R_packages/4.2.1/bianca/PureCN/extdata"
+export OUT_REF="/proj/sens2019581/nobackup/PureCN/reference_files"
+Rscript $PURECN/NormalDB.R --out-dir $OUT_REF \
+    --coverage-files /proj/sens2019581/nobackup/PureCN/data/Normal/BEVPAC_normal_coverages.list \
+    --genome hg38 --assay Twist_Exome
+
+
+#PureCN run
+#!/bin/bash -l
+#SBATCH -A sens2019581
+#SBATCH -p node
+#SBATCH -n 2
+#SBATCH -t 48:00:00
+#SBATCH -J PureCN
+module load bioinfo-tools
+module load R/4.2.1
+module load R_packages/4.2.1
+export PURECN="/sw/apps/R_packages/4.2.1/bianca/PureCN/extdata"
+export OUT_REF="/proj/sens2019581/nobackup/PureCN/reference_files"
+export OUT="/proj/sens2019581/nobackup/PureCN/results"
+for ((i=1; i<=18; i++)); #header(1)  # i=2; i<=194
+do
+Sample=$(awk -v i=$i 'NR==i{print $2}' /proj/sens2019581/nobackup/PureCN/data/BEVPAC_WESpair_baseline.txt)
+mkdir $OUT/$Sample
+Rscript $PURECN/PureCN.R --out $OUT/$Sample \
+    --tumor /proj/sens2019581/nobackup/PureCN/data/Tumor/$Sample".recal_coverage_loess.txt.gz" \
+    --sampleid $Sample \
+    --vcf /proj/sens2019581/nobackup/PureCN/data/$Sample".vcf" \
+    --fun-segmentation PSCBS \
+    --normaldb $OUT_REF/normalDB_Twist_Exome_hg38.rds \
+    --intervals $OUT_REF/Twist_Exome_RefSeq_targets_hg38_intervals.txt \
+    --snp-blacklist $OUT_REF/hg38-blacklist.v2.bed \
+    --genome hg38 \
+    --minpurity 0.05 --max-copy-number 8 \
+    --rds=rda \
+    --max-non-clonal 0.3 \
+    --model betabin \
+    --force --post-optimize --seed 123 \
+    --cores 32
+done
