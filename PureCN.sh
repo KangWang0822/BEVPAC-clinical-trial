@@ -62,9 +62,7 @@ Rscript $PURECN/IntervalFile.R --in-file /proj/sens2019581/nobackup/PureCN/refer
     --out-file $OUT_REF/Twist_Exome_RefSeq_targets_hg38_intervals.txt
 
 # Step2 Coverage
-export PURECN="/sw/apps/R_packages/4.1.1/bianca/PureCN/extdata"
-export OUT="/proj/sens2019581/nobackup/PureCN/data"
-export OUT_REF="/proj/sens2019581/nobackup/PureCN/reference_files"
+
 #!/bin/bash -l
 #SBATCH -A sens2022005
 #SBATCH -p node
@@ -76,27 +74,28 @@ module load R/4.2.1
 module load R_packages/4.2.1
 cd /proj/nobackup/sens2022005/data/PREDIX_HER2_WES/PureCN/scratch/data/Normal
 export PURECN="/sw/apps/R_packages/4.2.1/bianca/PureCN/extdata"
-export OUT_REF="/proj/sens2022005/nobackup/data/PREDIX_HER2_WES/PureCN/scratch/reference_files"
-export OUT="/proj/nobackup/sens2022005/data/PREDIX_HER2_WES/PureCN/scratch/data/Normal"
+export OUT_REF="/proj/sens2019581/nobackup/PureCN/reference_files"
+export OUT="/proj/sens2019581/nobackup/PureCN/data/Normal"
 Rscript $PURECN/Coverage.R --out-dir $OUT \
-    --bam /proj/nobackup/sens2022005/data/PREDIX_HER2_WES/PureCN/scratch/data/normal_bam.list \
-    --intervals $OUT_REF/Twist_Comprehensive_Exome_baits_hg38_intervals.txt \
+    --bam /proj/sens2019581/nobackup/PureCN/data/normal_bam.list \
+    --intervals $OUT_REF/Twist_Exome_RefSeq_targets_hg38_intervals.txt \
     --cores 64 --parallel
+
 
 #!/bin/bash -l
 #SBATCH -A sens2022005
 #SBATCH -p node
-#SBATCH -n 6
+#SBATCH -n 4
 #SBATCH -t 12:00:00
-#SBATCH -J coverage_baseline
+#SBATCH -J coverage_normal
 module load bioinfo-tools
 module load R/4.2.1
 module load R_packages/4.2.1
-cd /proj/nobackup/sens2022005/data/PREDIX_HER2_WES/PureCN/scratch/data/Baseline
+cd /proj/nobackup/sens2022005/data/PREDIX_HER2_WES/PureCN/scratch/data/Normal
 export PURECN="/sw/apps/R_packages/4.2.1/bianca/PureCN/extdata"
-export OUT_REF="/proj/sens2022005/nobackup/data/PREDIX_HER2_WES/PureCN/scratch/reference_files"
-export OUT="/proj/nobackup/sens2022005/data/PREDIX_HER2_WES/PureCN/scratch/data/Baseline"
+export OUT_REF="/proj/sens2019581/nobackup/PureCN/reference_files"
+export OUT="/proj/sens2019581/nobackup/PureCN/data/Tumor"
 Rscript $PURECN/Coverage.R --out-dir $OUT \
-    --bam /proj/nobackup/sens2022005/data/PREDIX_HER2_WES/PureCN/scratch/data/baseline_bam.list \
-    --intervals $OUT_REF/Twist_Comprehensive_Exome_baits_hg38_intervals.txt \
-    --cores 96 --parallel --force
+    --bam /proj/sens2019581/nobackup/PureCN/data/tumor_bam.list \
+    --intervals $OUT_REF/Twist_Exome_RefSeq_targets_hg38_intervals.txt \
+    --cores 64 --parallel
