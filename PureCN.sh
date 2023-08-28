@@ -162,3 +162,14 @@ Rscript $PURECN/PureCN.R --out $OUT/$Sample \
     --force --post-optimize --seed 123 \
     --cores 32
 done
+
+
+cd /proj/sens2019581/nobackup/PureCN/results
+cat */*loh.csv>BEVPAC_PureCN_LOH.csv
+cat */*variants.csv>BEVPAC_PureCN_variants.csv
+cat */*dnacopy.seg>BEVPAC_PureCN_seg.csv
+cat */!(*loh*|*variants*|*genes*|*amplification_pvalues*).csv>BEVPAC_PureCN_purity.csv
+cp BEVPAC_PureCN* /proj/nobackup/sens2019581/wharf/kangwang/kangwang-sens2019581/PureCN/
+
+
+
